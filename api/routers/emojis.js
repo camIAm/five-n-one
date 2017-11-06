@@ -11,7 +11,7 @@ const createEmojis = k => ({
 const emojis = map(createEmojis, keys(el));
 
 module.exports = module.exports = app => {
-  app.get("/", (req, res) => {
+  app.get("/emojis", (req, res) => {
     res.send(emojis);
   });
 };
