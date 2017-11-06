@@ -1,7 +1,17 @@
 var el = require("emojis-list");
-console.log(el);
+const { prop, map, keys } = require("ramda");
+const uuid = require("uuid");
+
+const createEmojis = k => ({
+  id: uuid.v4(),
+  name: k,
+  value: prop(k, el)
+});
+
+const emojis = map(createEmojis, keys(el));
+
 module.exports = module.exports = app => {
-  app.get("/emoji-list", (req, res) => {
-    res.send(el);
+  app.get("/", (req, res) => {
+    res.send(emojis);
   });
 };
