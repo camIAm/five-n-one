@@ -1,29 +1,25 @@
 import React from "react";
 import fetch from "isomorphic-fetch";
 import { map } from "ramda";
+import { connect } from "react-redux";
 
 const li = e => {
   return <li key={e.id}>{e.value}</li>;
 };
 
-function StarWars(props, context) {
-  const instance = new React.Component(props, context);
-  instance.state = {
-    starWars: []
-  };
-  fetch("http://localhost:5000/starwars")
-    .then(res => res.json())
-    .then(starWars => instance.setState({ starWars }));
+const StarWars = props => {
+  return (
+    <div>
+      <h1>StarWars</h1>
+      <ul>{map(li, props.starWars)}</ul>
+    </div>
+  );
+};
 
-  instance.render = function() {
-    return (
-      <div>
-        <h1>StarWars</h1>
-        <ul>{map(li, this.state.starWars)}</ul>
-      </div>
-    );
-  };
-  return instance;
-}
+const mapStateToProps = state => {
+  console.log("mapStateToProps: ", state);
+  return { starWars: state.starWars };
+};
 
-export default StarWars;
+const connector = connect(mapStateToProps);
+export default connector(StarWars);

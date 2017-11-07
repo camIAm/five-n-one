@@ -1,29 +1,23 @@
 import React from "react";
-import fetch from "isomorphic-fetch";
 import { map } from "ramda";
+import { connect } from "react-redux";
 
 const li = e => {
+  console.log("li function for emo: ", e);
   return <li key={e.id}>{e.value}</li>;
 };
 
-function Emojis(props, context) {
-  const instance = new React.Component(props, context);
-  instance.state = {
-    emojis: []
-  };
-  fetch("http://localhost:5000/emojis")
-    .then(res => res.json())
-    .then(emojis => instance.setState({ emojis }));
+const Emojis = props => {
+  return (
+    <div>
+      <h1>Emojis</h1>
+      <ul>{map(li, props.emojis)}</ul>
+    </div>
+  );
+};
 
-  instance.render = function() {
-    return (
-      <div>
-        <h1>Emojis</h1>
-        <ul>{map(li, this.state.emojis)}</ul>
-      </div>
-    );
-  };
-  return instance;
-}
-
-export default Emojis;
+const mapStateToProps = state => {
+  return { emojis: state.emojis };
+};
+const connector = connect(mapStateToProps);
+export default connector(Emojis);
