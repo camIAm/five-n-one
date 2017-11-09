@@ -6,6 +6,7 @@ const fortuneCookies = require("./routers/fortune-cookie");
 const emojis = require("./routers/emojis");
 const buzzWords = require("./routers/buzzwords");
 const app = express();
+
 app.use(cors({ credentials: true }));
 
 // load routes here
