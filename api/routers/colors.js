@@ -1,8 +1,8 @@
 const csscolorsObj = require("css-color-names");
-const { prop, map, keys } = require("ramda");
+const { prop, map, keys, append, isNil, find, propEq } = require("ramda");
 const uuid = require("uuid");
 const bodyParser = require("body-parser");
-const { append, isNil } = require("ramda");
+
 // create color document
 const createColor = k => ({
   id: uuid.v4(),
@@ -16,12 +16,17 @@ module.exports = app => {
   app.use(bodyParser.json());
 
   app.get("/colors", (req, res) => {
-    console.log("express api COLOR GET:", res.body);
+    console.log("express api COLOR GET:", req.body);
     res.send(colors);
   });
 
+  app.get("/colors/:id", (req, res) => {
+    console.log(find(propEq("id", req.params.id))(colors));
+    res.send(find(propEq("id", req.params.id))(colors));
+  });
+
   app.post("/colors", (req, res) => {
-    console.log("express api COLOR POST:", res.body);
+    console.log("express api COLOR POST:", req.body);
     if (isNil(req.body)) {
       res.status(500).send({
         ok: false,

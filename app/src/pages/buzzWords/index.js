@@ -1,5 +1,6 @@
 import React from "react";
 import fetch from "isomorphic-fetch";
+import { Link } from "react-router-dom";
 import { map } from "ramda";
 import { connect } from "react-redux";
 
@@ -10,6 +11,7 @@ const li = buzz => {
 const BuzzWords = props => {
   return (
     <div>
+      <Link to="/buzzwords/new">Add BuzzWord</Link>
       <h1>BuzzWords</h1>
       <ul>{map(li, props.words)}</ul>
     </div>
@@ -17,7 +19,6 @@ const BuzzWords = props => {
 };
 
 const mapStateToProps = state => {
-  console.log("mapStateToProps: ", state.buzzWords);
   return { words: state.buzzWords };
 };
 
